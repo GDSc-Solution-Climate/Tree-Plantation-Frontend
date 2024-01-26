@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tree_plantation_frontend/login.dart';
 import 'package:tree_plantation_frontend/services/user_services.dart';
 
-class UploadProfilePic extends GetxController{
-Rx<File?> image = Rx<File?>(null);
-
+class UploadProfilePic extends GetxController {
+  Rx<File?> image = Rx<File?>(null);
+  TextEditingController bioController = TextEditingController();
   Future<void> getImage(ImageSource source) async {
     final imagePicker = ImagePicker();
     final pickedFile = await imagePicker.pickImage(source: source);
@@ -47,4 +47,26 @@ Rx<File?> image = Rx<File?>(null);
     }
   }
 
+  void uploadBio(String userName) async {
+    var res = await UserServices.putBioDetails(userName, bioController.text);
+    if (res != Error()) {
+      Get.snackbar(
+        "Success",
+        "Bio Updated",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+      bioController.clear();
+    } else {
+      Get.snackbar(
+        "Error",
+        "Bio Update Failed",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      bioController.clear();
+    }
+  }
 }

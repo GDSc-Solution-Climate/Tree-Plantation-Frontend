@@ -49,22 +49,13 @@ class UserServices {
     }
   }
 
-  static Future getImagesById(String userId) async {
-    var res = await http.get(Uri.parse("$findImagesById$userId"));
-    if (res.statusCode == 200) {
-      print(res.body);
-      return [jsonDecode(res.body)];
-    } else {
-      return [Error()];
-    }
-  }
-
   static Future<http.StreamedResponse> addProfileImage({
     required Uint8List imageBytes,
     required String description,
     required String filePath, // Change this parameter name
   }) async {
-    final String apiUrl = "$updateAvatar$userName"; // Assuming no username is required
+    final String apiUrl =
+        "$updateAvatar$userName"; // Assuming no username is required
 
     var request = http.MultipartRequest('PUT', Uri.parse(apiUrl));
 
@@ -100,6 +91,19 @@ class UserServices {
       // Add more cases for other file types if needed
       default:
         return MediaType('application', 'octet-stream');
+    }
+  }
+
+  static Future putBioDetails(String userName, String bio) async {
+    var res = await http.put(Uri.parse("$updateBio$userName"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(<String, String>{"bio": bio}));
+    if (res.statusCode == 200) {
+      return jsonDecode(res.body);
+    } else {
+      throw Error();
     }
   }
 }

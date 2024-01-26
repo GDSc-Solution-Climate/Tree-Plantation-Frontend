@@ -9,6 +9,7 @@ import 'package:tree_plantation_frontend/services/image_upload_service.dart';
 class ImageController extends GetxController {
   Rx<File?> image = Rx<File?>(null);
   final TextEditingController description = TextEditingController();
+
   Future<void> getImage(ImageSource source) async {
     final imagePicker = ImagePicker();
     final pickedFile = await imagePicker.pickImage(source: source);
@@ -23,28 +24,27 @@ class ImageController extends GetxController {
     if (image.value != null) {
       try {
         Uint8List imageBytes = await image.value!.readAsBytes();
-        String description =
-            'your_image_description'; // Replace with the actual description
-        String fileName =
-            image.value!.path.split('/').last; // Use the actual file name
+        String descriptionText = description.text;
+        String fileName = image.value!.path.split('/').last;
 
         var response = await ImageUploadService.uploadImage(
           imageBytes: imageBytes,
-          description: description,
+          description: descriptionText,
           filePath: fileName,
         );
 
-        // Handle the response as needed
         if (response.statusCode == 200) {
           image.value = null;
         } else {
           print('Image upload failed with status code: ${response.statusCode}');
-          image.value = null;
+          // Handle the error, e.g., notify the user or log the error details
         }
       } catch (e) {
         print('Error uploading image: $e');
-        image.value = null;
+        // Handle the error, e.g., notify the user or log the error details
       }
     }
   }
+
+  
 }

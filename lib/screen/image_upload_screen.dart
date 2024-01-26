@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tree_plantation_frontend/controllers/image_controller.dart';
-import 'package:tree_plantation_frontend/login.dart';
 
 class ImageUploadScreen extends StatefulWidget {
   const ImageUploadScreen({Key? key}) : super(key: key);
@@ -39,7 +38,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 controller: controller.description,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Image Description',
                   labelStyle: TextStyle(color: Colors.black),
                   focusedBorder: OutlineInputBorder(

@@ -40,7 +40,7 @@ class _ReedemPointsState extends State<ReedemPoints> {
                       Column(
                         children: [
                           AutoSizeText(
-                            'Points: ${controller.userInfo.value[0]["points"]} ',
+                            'Points: ${controller.userInfo[0]["points"]} ',
                             maxFontSize: 25,
                             minFontSize: 15,
                             style: TextStyle(

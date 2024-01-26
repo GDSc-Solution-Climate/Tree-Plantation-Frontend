@@ -20,11 +20,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    profileController.getUserData(userName);
     super.initState();
+    profileController.getUserData(userName);
   }
+
   @override
   Widget build(BuildContext context) {
+    print(profileController.userInfo[0].containsKey('bio'));
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -50,7 +52,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   return CircleAvatar(
                     radius: 80,
                     backgroundImage:
-                        profileController.userInfo[0].containsKey("avatar") && controller.image.value == null
+                        profileController.userInfo[0].containsKey("avatar") &&
+                                controller.image.value == null
                             ? NetworkImage(
                                 "${profileController.userInfo[0]["avatar"]}")
                             : controller.image.value == null
@@ -125,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Date Of Joining: ${DateFormat('yyyy-MM-dd').format(DateTime.parse(profileController.userInfo[0]["createdAt"]))}',
                       minFontSize: 20,
                       maxFontSize: 25,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
@@ -136,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       "Email: ${profileController.userInfo[0]["email"]}",
                       minFontSize: 15,
                       maxFontSize: 20,
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: h * 0.02),
                     Row(
@@ -152,7 +155,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const Spacer(),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: ((context) {
+                                return AlertDialog(
+                                  title: const Text('Add Bio'),
+                                  content: TextField(
+                                    controller: controller.bioController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Enter Bio',
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        controller.bioController.clear();
+                                        Get.back();
+                                      },
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        controller.uploadBio(userName);
+                                        Get.back();
+                                      },
+                                      child: const Text('Save'),
+                                    ),
+                                  ],
+                                );
+                              }),
+                            );
+                          },
                           icon: const Icon(
                             Icons.edit,
                             color: Colors.grey,
@@ -160,14 +194,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-                    const AutoSizeText(
-                      "Add Bio",
-                      minFontSize: 15,
-                      maxFontSize: 20,
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
+                    profileController.userInfo[0].containsKey('bio')
+                        ? AutoSizeText(
+                            profileController.userInfo[0]["bio"],
+                            minFontSize: 15,
+                            maxFontSize: 20,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          )
+                        : const AutoSizeText(
+                            "Add Bio",
+                            minFontSize: 15,
+                            maxFontSize: 20,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                   ],
                 ),
               ),
