@@ -1,4 +1,4 @@
-const serverUrl = "http://192.168.1.7:3000/api/db";
+const serverUrl = "http://192.168.1.5:3000/api/db";
 
 const createNewUser = "$serverUrl/createUser";
 const loginUser = "$serverUrl/login/";

@@ -218,7 +218,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Add functionality for another action
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const LoginSignupScreen(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,

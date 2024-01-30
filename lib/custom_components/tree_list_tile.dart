@@ -41,62 +41,64 @@ class _TreeListCardState extends State<TreeListCard> {
     print(widget.imgId);
     print(imageData);
     return SizedBox(
-      height: h * 0.12,
+      height: h * 0.8,
       width: w,
-      child: Row(
-        children: [
-          // Leading (image or default icon)
-          Container(
-            width: w * 0.3,
-            child: imageData.isNotEmpty
-                ? Image.network(
-                    imageData[0]["image"],
-                    fit: BoxFit.contain,
-                  )
-                : const Icon(Icons.image),
-          ),
-          // Title and Trailing (description, like button, and like count)
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: w,
+          height: h * 0.6,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: h * 0.3,
+                width: w,
+                child: imageData.isNotEmpty
+                    ? Image.network(
+                        imageData[0]["image"],
+                        fit: BoxFit.fill,
+                      )
+                    : const Icon(Icons.image),
+              ),
+              SizedBox(
+                height: h * 0.05,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    'Tree Description: ${imageData.isNotEmpty ? imageData[0]["desc"] : ""}',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  IconButton(
+                    onPressed: () {
+                      controller.likeImg(
+                        userName,
+                        widget.imgId,
+                      );
+                      setImageDetails();
+                    },
+                    icon: const Icon(
+                      Icons.favorite_border,
+                      size: 35,
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          controller.likeImg(
-                            userName,
-                            widget.imgId,
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.favorite_border,
-                          size: 25,
-                        ),
-                      ),
-                      AutoSizeText(
-                        imageData.isNotEmpty
-                            ? imageData[0]["likeCount"].toString()
-                            : "",
-                        minFontSize: 8,
-                        maxFontSize: 15,
-                      ),
-                    ],
+                  AutoSizeText(
+                    imageData.isNotEmpty
+                        ? imageData[0]["likeCount"].toString()
+                        : "",
+                    minFontSize: 10,
+                    maxFontSize: 18,
                   ),
                 ],
               ),
-            ),
+              AutoSizeText(
+                '${imageData.isNotEmpty ? imageData[0]["desc"] : ""}',
+                maxLines: 5,
+                minFontSize: 15,
+                maxFontSize: 20,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
