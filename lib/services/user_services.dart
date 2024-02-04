@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:tree_plantation_frontend/api_url_constants.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:tree_plantation_frontend/login.dart';

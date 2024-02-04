@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:tree_plantation_frontend/controllers/image_details_controller.dart';
 import 'package:tree_plantation_frontend/login.dart';
 import 'package:tree_plantation_frontend/custom_components/tree_list_tile.dart';
 import 'package:tree_plantation_frontend/controllers/profile_screen_controller.dart';
@@ -14,6 +15,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ProfileController profileController = Get.put(ProfileController());
+  final ImageDetailsController imgController =
+      Get.put(ImageDetailsController());
+
+  @override
+  void initState() {
+    imgController.getImgDetail();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Expanded(
             child: Obx(
-              () => profileController.isLoading.value
+              () => imgController.imgLoading.value
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
@@ -72,21 +81,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: h * 0.9,
                       width: w,
                       child: ListView.builder(
-                        itemCount: profileController.userInfo.isNotEmpty
-                            ? profileController.userInfo[0]["images"].length
+                        itemCount: imgController.imgDetails.isNotEmpty
+                            ? imgController.imgDetails.length
                             : 0,
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                TreeListCard(
-                                  imgId: profileController.userInfo[0]["images"]
-                                      [index] as String,
-                                ),
-                                Divider(color: Colors.black,thickness: 2,)
-                              ],
-                            ),
+                          return Column(
+                            children: [
+                              TreeListCard(
+                                treeImg: imgController.imgDetails[index]
+                                    ["image"],
+                                treeDesc: imgController.imgDetails[index]
+                                    ["desc"],
+                                treeLikes: imgController.imgDetails[index]
+                                        ["likeCount"]
+                                    .toString(),
+                                imgId: imgController.imgDetails[index]["_id"],
+                                replies: imgController.imgDetails[index]
+                                    ["reply"],
+                              ),
+                            ],
                           );
                         },
                       ),

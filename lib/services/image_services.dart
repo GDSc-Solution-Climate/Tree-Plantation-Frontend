@@ -34,4 +34,32 @@ class ImageServices {
       return [Error()];
     }
   }
+
+  static Future getAllImages() async {
+    print('checking');
+    var res = await http.get(Uri.parse(allImages));
+    if (res.statusCode == 200) {
+      print(res.body);
+      return jsonDecode(res.body);
+    } else {
+      return [Error()];
+    }
+  }
+
+  static Future replyToPost(String user, String imgId, String reply) async {
+    var res = await http.post(
+      Uri.parse(addReply),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(<String, dynamic>{
+        "userId": user,
+        "imageId": imgId,
+        "text": reply
+      }),
+    );
+    if (res.statusCode == 200) {
+      return [jsonDecode(res.body)];
+    } else {
+      return [Error()];
+    }
+  }
 }
