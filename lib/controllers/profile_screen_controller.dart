@@ -1,17 +1,10 @@
 import 'package:get/get.dart';
-import 'package:tree_plantation_frontend/login.dart';
 import 'package:tree_plantation_frontend/services/user_services.dart';
 
 class ProfileController extends GetxController {
-  RxList userInfo = [].obs; // Assuming userInfo is a Map<String, dynamic>
+  RxList userInfo = [].obs;
   RxList images = [].obs;
   RxBool isLoading = true.obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    getUserData(userName);
-  }
 
   Future<void> getUserData(String userName) async {
     var res = await UserServices.getUserByName(userName);

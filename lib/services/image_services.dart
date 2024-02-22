@@ -50,12 +50,19 @@ class ImageServices {
     var res = await http.post(
       Uri.parse(addReply),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode(<String, dynamic>{
-        "userId": user,
-        "imageId": imgId,
-        "text": reply
-      }),
+      body: jsonEncode(
+          <String, dynamic>{"userId": user, "imageId": imgId, "text": reply}),
     );
+    if (res.statusCode == 200) {
+      return [jsonDecode(res.body)];
+    } else {
+      return [Error()];
+    }
+  }
+
+  static Future getChildImage(String userId, String imgId) async {
+    print('$childImages/$userId/$imgId');
+    var res = await http.get(Uri.parse('$childImages$userId/$imgId'));
     if (res.statusCode == 200) {
       return [jsonDecode(res.body)];
     } else {

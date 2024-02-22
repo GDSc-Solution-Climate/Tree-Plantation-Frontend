@@ -18,9 +18,9 @@ class LoginSignupScreen extends StatefulWidget {
 
 class _LoginSignupScreenState extends State<LoginSignupScreen> {
   bool isLoginScreen = true;
-  TextEditingController _userName = TextEditingController();
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
+  final TextEditingController _userName = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
@@ -225,6 +225,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                         // Create new user
                         var user = await UserServices.createUser(
                             _email.text, _password.text, _userName.text);
+                        final prefs = await SharedPreferences.getInstance();
                         if (user != Error()) {
                           Get.snackbar(
                             "Success",
@@ -234,10 +235,20 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               seconds: 2,
                             ),
                           );
+                          if (user.containsKey('token')) {
+                            var userData =
+                                Jwt.parseJwt(user["token"].toString());
+                            prefs.setString("token", user["token"].toString());
+                            print(userData);
+                            userName = userData['username'];
+                            userId = userData['userId'];
+                          }
+
                           Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const MyNavigationBar()));
+                            MaterialPageRoute(
+                              builder: (context) => const MyNavigationBar(),
+                            ),
+                          );
                         }
                       } else {
                         // Login user

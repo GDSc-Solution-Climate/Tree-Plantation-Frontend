@@ -105,4 +105,13 @@ class UserServices {
       throw Error();
     }
   }
+
+  static Future getUserByUserId(String userId) async {
+    var res = await http.get(Uri.parse("$getUserById$userId"));
+    if (res.statusCode == 200) {
+      return [jsonDecode(res.body)];
+    } else {
+      throw Error();
+    }
+  }
 }

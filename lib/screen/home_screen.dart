@@ -21,7 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     imgController.getImgDetail();
+    profileController.getUserData(userName);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    imgController.dispose();
+    super.dispose();
   }
 
   @override
@@ -95,9 +102,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 treeLikes: imgController.imgDetails[index]
                                         ["likeCount"]
                                     .toString(),
-                                imgId: imgController.imgDetails[index]["_id"],
+                                imgId: imgController.imgDetails[index]
+                                    ["_id"],
                                 replies: imgController.imgDetails[index]
                                     ["reply"],
+                                owner: imgController.imgDetails[index]
+                                    ["owner"],
                               ),
                             ],
                           );
