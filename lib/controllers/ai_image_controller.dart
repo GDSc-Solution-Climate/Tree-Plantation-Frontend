@@ -9,6 +9,7 @@ import 'package:tree_plantation_frontend/services/ai_services.dart';
 
 class AiImageController extends GetxController {
   Rx<File?> image = Rx<File?>(null);
+  RxString res = ''.obs;
   Future<void> getImage(ImageSource source) async {
     final imagePicker = ImagePicker();
     final pickedFile = await imagePicker.pickImage(source: source);
@@ -38,6 +39,7 @@ class AiImageController extends GetxController {
           var responseData = jsonDecode(
               await http.ByteStream(response.stream).bytesToString());
           print('Image upload successful. Response: $responseData');
+          res.value = responseData['data'];
           image.value = null;
         } else {
           print('Image upload failed with status code: ${response.statusCode}');
