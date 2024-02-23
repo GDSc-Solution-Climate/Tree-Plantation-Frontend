@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:fast_image_resizer/fast_image_resizer.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,13 +23,13 @@ class AiImageController extends GetxController {
     if (image.value != null) {
       try {
         Uint8List imageBytes = await image.value!.readAsBytes();
+        final resizedImg = await resizeImage(imageBytes);
         String descriptionText = prompt;
-        String fileName = image.value!.path.split('/').last;
 
         var response = await AIServices.uploadImage(
           imageBytes: imageBytes,
           prompt: descriptionText,
-          filePath: fileName,
+          filePath: resizedImg.toString(),
         );
 
         if (response.statusCode == 200) {

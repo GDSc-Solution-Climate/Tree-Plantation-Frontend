@@ -50,73 +50,58 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 Obx(() {
                   return IconButton(
-                    onPressed: controller.image.value == null
-                        ? isLoading.value
-                            ? null
-                            : () async {
-                                String message = messageController.text;
-                                if (message.isNotEmpty) {
-                                  isLoading.value = true;
-                                  messages.add(message);
-                                  messageController.clear();
-                                  var res =
-                                      await AIServices.textAiResponse(message);
-                                  if (res is List) {
-                                    messages.addAll(
-                                        res.map((message) => message['name']));
-                                  } else if (res is Map) {
-                                    messages.add(res[0]['name']);
-                                  }
-                                  isLoading.value = false;
-                                }
+                    onPressed: isLoading.value
+                        ? null
+                        : () async {
+                            String message = messageController.text;
+                            if (message.isNotEmpty) {
+                              isLoading.value = true;
+                              messages.add(message);
+                              messageController.clear();
+                              var res =
+                                  await AIServices.textAiResponse(message);
+                              if (res is List) {
+                                messages.addAll(
+                                    res.map((message) => message['name']));
+                              } else if (res is Map) {
+                                messages.add(res[0]['name']);
                               }
-                        : isLoading.value
-                            ? null
-                            : () async {
-                                String message = messageController.text;
-                                if (message.isNotEmpty) {
-                                  isLoading.value = true;
-                                  messages.add(message);
-                                  messageController.clear();
-
-                                  controller.uploadImage(message);
-
-                                  isLoading.value = false;
-                                }
-                              },
+                              isLoading.value = false;
+                            }
+                          },
                     icon: Icon(Icons.send),
                   );
                 }),
-                IconButton(
-                  onPressed: () {
-                    Get.bottomSheet(
-                      elevation: 2,
-                      backgroundColor: Colors.white,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            onPressed: () =>
-                                controller.getImage(ImageSource.camera),
-                            icon: const Icon(
-                              Icons.camera_alt_rounded,
-                              size: 50,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () =>
-                                controller.getImage(ImageSource.gallery),
-                            icon: const Icon(
-                              Icons.image_sharp,
-                              size: 50,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.attach_file_sharp),
-                ),
+                // IconButton(
+                //   onPressed: () {
+                //     Get.bottomSheet(
+                //       elevation: 2,
+                //       backgroundColor: Colors.white,
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //         children: [
+                //           IconButton(
+                //             onPressed: () =>
+                //                 controller.getImage(ImageSource.camera),
+                //             icon: const Icon(
+                //               Icons.camera_alt_rounded,
+                //               size: 50,
+                //             ),
+                //           ),
+                //           IconButton(
+                //             onPressed: () =>
+                //                 controller.getImage(ImageSource.gallery),
+                //             icon: const Icon(
+                //               Icons.image_sharp,
+                //               size: 50,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     );
+                //   },
+                //   icon: const Icon(Icons.attach_file_sharp),
+                // ),
               ],
             ),
           ),
