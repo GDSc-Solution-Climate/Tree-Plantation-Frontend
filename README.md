@@ -1,20 +1,9 @@
-<<<<<<< HEAD
-# tree_plantation_frontend
+# Tree Plantation Frontend
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
-# Tree-Plantation-Frontend
->>>>>>> 29c503c5b9dcb5b39def0ab4724530000e697a42
+For Running the project successfully 
+# Step 1
+Open the api_url_constants.dart file in lib folder.
+# Step 2
+Change the server url http://192.168.1.3:3000/api/db with http://Your Device IPV4 Wireless lan:3000/api/db
+# Step 3
+Open The Terminal and write "flutter run" to run the application
